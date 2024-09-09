@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,7 +15,10 @@ public class ImageViewer extends JFrame {
     private final JLabel imageLabel;
     private BufferedImage originalImage;
     private final JSlider zoomSlider;
+    private final JSlider brightnessSlider;
+    private final JSlider contrastSlider;
     private final JComboBox<String> colorChannelBox;
+    private final JCheckBox monochromeCheckBox;
 
     public ImageViewer() {
         super.setTitle("Image Viewer");
@@ -44,11 +48,29 @@ public class ImageViewer extends JFrame {
         this.zoomSlider.addChangeListener(e -> this.updateZoom());
         this.zoomSlider.setBackground(new Color(245, 245, 245));
 
-        this.colorChannelBox = new JComboBox<>(new String[]{"Original", "Red", "Green", "Blue", "Gray"});
+        this.brightnessSlider = new JSlider(-100, 100, 0);
+        this.brightnessSlider.setMajorTickSpacing(50);
+        this.brightnessSlider.setPaintTicks(true);
+        this.brightnessSlider.setPaintLabels(true);
+        this.brightnessSlider.addChangeListener(e -> this.updateZoom());
+        this.brightnessSlider.setBackground(new Color(245, 245, 245));
+
+        this.contrastSlider = new JSlider(-100, 100, 0);
+        this.contrastSlider.setMajorTickSpacing(50);
+        this.contrastSlider.setPaintTicks(true);
+        this.contrastSlider.setPaintLabels(true);
+        this.contrastSlider.addChangeListener(e -> this.updateZoom());
+        this.contrastSlider.setBackground(new Color(245, 245, 245));
+
+        this.colorChannelBox = new JComboBox<>(new String[]{"Original", "Red", "Green", "Blue"});
         this.colorChannelBox.addActionListener(e -> this.updateZoom());
         this.colorChannelBox.setFont(new Font("Arial", Font.PLAIN, 16));
         this.colorChannelBox.setBackground(new Color(245, 245, 245));
         this.colorChannelBox.setBorder(new EmptyBorder(5, 150, 5, 150));
+
+        this.monochromeCheckBox = new JCheckBox("Monochrome");
+        this.monochromeCheckBox.setBackground(new Color(245, 245, 245));
+        this.monochromeCheckBox.addActionListener(e -> this.updateZoom());
 
         final JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -63,7 +85,15 @@ public class ImageViewer extends JFrame {
         controlPanel.add(Box.createVerticalStrut(10));
         controlPanel.add(this.zoomSlider);
         controlPanel.add(Box.createVerticalStrut(10));
+        controlPanel.add(new JLabel("Brightness"));
+        controlPanel.add(this.brightnessSlider);
+        controlPanel.add(Box.createVerticalStrut(10));
+        controlPanel.add(new JLabel("Contrast"));
+        controlPanel.add(this.contrastSlider);
+        controlPanel.add(Box.createVerticalStrut(10));
         controlPanel.add(this.colorChannelBox);
+        controlPanel.add(Box.createVerticalStrut(10));
+        controlPanel.add(this.monochromeCheckBox);
 
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -131,6 +161,13 @@ public class ImageViewer extends JFrame {
                 bufferedScaledImage = applyColorFilter(bufferedScaledImage, selectedChannel);
             }
 
+            bufferedScaledImage = adjustBrightness(bufferedScaledImage, this.brightnessSlider.getValue());
+            bufferedScaledImage = adjustContrast(bufferedScaledImage, this.contrastSlider.getValue());
+
+            if (this.monochromeCheckBox.isSelected()) {
+                bufferedScaledImage = applyGrayscaleFilter(bufferedScaledImage);
+            }
+
             this.imageLabel.setIcon(new ImageIcon(bufferedScaledImage));
         }
     }
@@ -157,11 +194,37 @@ public class ImageViewer extends JFrame {
             case "Red" -> (alpha << 24) | (red << 16);
             case "Green" -> (alpha << 24) | (green << 8);
             case "Blue" -> (alpha << 24) | blue;
-            case "Gray" -> {
-                final int gray = (red + green + blue) / 3;
-                yield (alpha << 24) | (gray << 16) | (gray << 8) | gray;
-            }
             default -> 0;
         };
+    }
+
+    private BufferedImage adjustBrightness(BufferedImage image, int brightness) {
+        RescaleOp rescaleOp = new RescaleOp(1f, brightness, null);
+        rescaleOp.filter(image, image);
+        return image;
+    }
+
+    private BufferedImage adjustContrast(BufferedImage image, int contrast) {
+        float scaleFactor = 1 + (contrast / 100f);
+        RescaleOp rescaleOp = new RescaleOp(scaleFactor, 0, null);
+        rescaleOp.filter(image, image);
+        return image;
+    }
+
+    private BufferedImage applyGrayscaleFilter(BufferedImage image) {
+        BufferedImage grayscaleImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int rgb = image.getRGB(x, y);
+                int alpha = (rgb >> 24) & 0xff;
+                int red = (rgb >> 16) & 0xff;
+                int green = (rgb >> 8) & 0xff;
+                int blue = rgb & 0xff;
+                int gray = (red + green + blue) / 3;
+                int newRgb = (alpha << 24) | (gray << 16) | (gray << 8) | gray;
+                grayscaleImage.setRGB(x, y, newRgb);
+            }
+        }
+        return grayscaleImage;
     }
 }
