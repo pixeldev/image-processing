@@ -23,16 +23,18 @@ public class MenuBar extends JMenuBar {
       final JFileChooser fileChooser = new JFileChooser();
       final int returnValue = fileChooser.showSaveDialog(null);
       if (returnValue == JFileChooser.APPROVE_OPTION) {
-        final File selectedFile = fileChooser.getSelectedFile();
+        File selectedFile = fileChooser.getSelectedFile();
+        if (!selectedFile.getName().endsWith(".jpg")) {
+          selectedFile = new File(selectedFile.getAbsolutePath() + ".jpg");
+        }
         final BufferedImage image = bufferedImageContainer.getModifiedImage();
         try {
-          boolean result = ImageIO.write(image, "JPG", selectedFile);
+          final boolean result = ImageIO.write(image, "JPG", selectedFile);
           if (result) {
             JOptionPane.showMessageDialog(null, "Imagen guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
           } else {
             JOptionPane.showMessageDialog(null, "Error al guardar la imagen: Formato no soportado", "Error", JOptionPane.ERROR_MESSAGE);
           }
-          JOptionPane.showMessageDialog(null, "Imagen guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (final IOException e) {
           JOptionPane.showMessageDialog(null, "Error al guardar la imagen", "Error", JOptionPane.ERROR_MESSAGE);
         }
