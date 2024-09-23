@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
 }
 
 group = "io.github.pixeldev"
@@ -9,4 +10,14 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
+}
+
+application {
+  mainClass.set("io.github.pixeldev.pdipractica1.Bootstrap")
+}
+
+tasks.withType<Jar> {
+  manifest {
+    attributes["Main-Class"] = "io.github.pixeldev.pdipractica1.Bootstrap"
+  }
 }
