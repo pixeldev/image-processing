@@ -7,30 +7,26 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.dnd.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 
 public class ImagePanel extends JPanel {
-
   private final BufferedImageContainer bufferedImageContainer;
   private final JLabel imageLabel;
+  private final MainFrame mainFrame;
 
-  public ImagePanel(final BufferedImageContainer bufferedImageContainer) {
+  public ImagePanel(final BufferedImageContainer bufferedImageContainer, final MainFrame mainFrame) {
     this.bufferedImageContainer = bufferedImageContainer;
-    super.setLayout(new BorderLayout());
-    super.setBackground(Color.LIGHT_GRAY);
+    this.mainFrame = mainFrame;
 
     this.imageLabel = new JLabel("Drop image here or click to load", SwingConstants.CENTER);
     this.imageLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+
+    super.setLayout(new BorderLayout());
+    super.setBackground(Color.LIGHT_GRAY);
     super.add(this.imageLabel, BorderLayout.CENTER);
 
     this.enableDragAndDrop();
@@ -121,6 +117,9 @@ public class ImagePanel extends JPanel {
       this.bufferedImageContainer.setOriginalImage(outputImage);
       this.imageLabel.setIcon(new ImageIcon(resultingImage));
       this.imageLabel.setText("");
+
+      // Notify MainFrame to add the ControlPanel
+      this.mainFrame.addControlPanel();
     } catch (final Exception ex) {
       JOptionPane.showMessageDialog(null, "Error loading image: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
