@@ -1,5 +1,7 @@
 package io.github.pixeldev.pdipractica1.model;
 
+import io.github.pixeldev.pdipractica1.controller.image.BufferedImageHistogramCalculator;
+
 import java.awt.image.BufferedImage;
 
 public final class BufferedImageContainer {
@@ -7,6 +9,16 @@ public final class BufferedImageContainer {
 
   private BufferedImage originalImage;
   private BufferedImage modifiedImage;
+  private BufferedImageHistogram originalImageHistogram;
+  private BufferedImageHistogram modifiedImageHistogram;
+
+  public BufferedImageHistogram getOriginalImageHistogram() {
+    return this.originalImageHistogram;
+  }
+
+  public BufferedImageHistogram getModifiedImageHistogram() {
+    return this.modifiedImageHistogram;
+  }
 
   public BufferedImage getOriginalImage() {
     return this.originalImage;
@@ -14,6 +26,7 @@ public final class BufferedImageContainer {
 
   public void setOriginalImage(final BufferedImage originalImage) {
     this.originalImage = originalImage;
+    this.originalImageHistogram = BufferedImageHistogramCalculator.calculate(originalImage, this.settings);
     this.resetModifiedImage();
     this.settings.setWidth(originalImage.getWidth());
     this.settings.setHeight(originalImage.getHeight());
@@ -29,10 +42,12 @@ public final class BufferedImageContainer {
 
   public void setModifiedImage(final BufferedImage modifiedImage) {
     this.modifiedImage = modifiedImage;
+    this.modifiedImageHistogram = BufferedImageHistogramCalculator.calculate(modifiedImage, this.settings);
   }
 
   public void resetModifiedImage() {
     this.modifiedImage = BufferedImageHelper.copy(this.originalImage);
+    this.modifiedImageHistogram = this.originalImageHistogram;
   }
 
   public BufferedImageSettings getSettings() {

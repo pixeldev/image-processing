@@ -1,5 +1,7 @@
 package io.github.pixeldev.pdipractica1.model;
 
+import java.awt.*;
+
 public enum ColorChannel {
   ORIGINAL(0),
   RED(1),
@@ -14,6 +16,23 @@ public enum ColorChannel {
 
   public int getValue() {
     return this.value;
+  }
+
+  public Color getColor() {
+    switch (this) {
+      case RED -> {
+        return Color.RED;
+      }
+      case GREEN -> {
+        return Color.GREEN;
+      }
+      case BLUE -> {
+        return Color.BLUE;
+      }
+      default -> {
+        return Color.BLACK;
+      }
+    }
   }
 
   public static ColorChannel fromValue(final int value) {
