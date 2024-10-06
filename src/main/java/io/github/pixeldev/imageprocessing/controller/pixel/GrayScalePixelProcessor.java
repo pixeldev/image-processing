@@ -1,4 +1,4 @@
-package io.github.pixeldev.pdipractica1.controller.pixel;
+package io.github.pixeldev.imageprocessing.controller.pixel;
 
 public enum GrayScalePixelProcessor implements PixelProcessor {
   INSTANCE;

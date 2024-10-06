@@ -1,6 +1,6 @@
-package io.github.pixeldev.pdipractica1.controller.pixel;
+package io.github.pixeldev.imageprocessing.controller.pixel;
 
-import io.github.pixeldev.pdipractica1.model.BufferedImageSettings;
+import io.github.pixeldev.imageprocessing.model.BufferedImageSettings;
 
 public class PixelProcessorContext {
   private final int x;

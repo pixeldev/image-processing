@@ -1,4 +1,4 @@
-package io.github.pixeldev.pdipractica1.ui;
+package io.github.pixeldev.imageprocessing.ui;
 
 import javax.swing.*;
 import java.awt.*;

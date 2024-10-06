@@ -1,7 +1,7 @@
-package io.github.pixeldev.pdipractica1.ui;
+package io.github.pixeldev.imageprocessing.ui;
 
-import io.github.pixeldev.pdipractica1.controller.image.ImageProcessor;
-import io.github.pixeldev.pdipractica1.model.BufferedImageContainer;
+import io.github.pixeldev.imageprocessing.controller.image.ImageProcessor;
+import io.github.pixeldev.imageprocessing.model.BufferedImageContainer;
 
 import javax.swing.*;
 import java.awt.*;

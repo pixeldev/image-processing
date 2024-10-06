@@ -13,11 +13,11 @@ java {
 }
 
 application {
-  mainClass.set("io.github.pixeldev.pdipractica1.Bootstrap")
+  mainClass.set("io.github.pixeldev.imageprocessing.Bootstrap")
 }
 
 tasks.withType<Jar> {
   manifest {
-    attributes["Main-Class"] = "io.github.pixeldev.pdipractica1.Bootstrap"
+    attributes["Main-Class"] = "io.github.pixeldev.imageprocessing.Bootstrap"
   }
 }

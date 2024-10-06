@@ -1,7 +1,7 @@
-package io.github.pixeldev.pdipractica1.controller.image;
+package io.github.pixeldev.imageprocessing.controller.image;
 
-import io.github.pixeldev.pdipractica1.model.BufferedImageHistogram;
-import io.github.pixeldev.pdipractica1.model.BufferedImageSettings;
+import io.github.pixeldev.imageprocessing.model.BufferedImageHistogram;
+import io.github.pixeldev.imageprocessing.model.BufferedImageSettings;
 
 import java.awt.image.BufferedImage;
 

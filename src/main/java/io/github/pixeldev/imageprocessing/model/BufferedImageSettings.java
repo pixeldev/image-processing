@@ -1,4 +1,4 @@
-package io.github.pixeldev.pdipractica1.model;
+package io.github.pixeldev.imageprocessing.model;
 
 public class BufferedImageSettings {
   private int brightness;

@@ -1,6 +1,6 @@
-package io.github.pixeldev.pdipractica1.model;
+package io.github.pixeldev.imageprocessing.model;
 
-import io.github.pixeldev.pdipractica1.controller.image.BufferedImageHistogramCalculator;
+import io.github.pixeldev.imageprocessing.controller.image.BufferedImageHistogramCalculator;
 
 import java.awt.image.BufferedImage;
 

@@ -1,2 +1,2 @@
-rootProject.name = "pdi-practica-1"
+rootProject.name = "image-processing"
 

@@ -1,6 +1,6 @@
-package io.github.pixeldev.pdipractica1.controller.pixel;
+package io.github.pixeldev.imageprocessing.controller.pixel;
 
-import io.github.pixeldev.pdipractica1.model.ColorChannel;
+import io.github.pixeldev.imageprocessing.model.ColorChannel;
 
 public enum ColorChannelPixelProcessor implements PixelProcessor {
   INSTANCE;
