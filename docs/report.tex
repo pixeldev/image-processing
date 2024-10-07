@@ -1,0 +1,157 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+
+\title{Generación del histograma}
+\author{Angel Miranda San Martín}
+\date{5 de Octubre de 2024}
+
+\begin{document}
+
+  \begin{titlepage}
+    \begin{minipage}{0.5\textwidth}
+      \flushleft
+      \includegraphics[width=2cm]{image/logo-ipn-guinda}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+      \flushright
+      \includegraphics[width=3cm]{image/logo-escom}
+    \end{minipage}
+    \vspace{1cm}
+    \begin{center}
+      \Huge \textbf{Generación del histograma}
+      \vspace{1cm}
+
+      \Large Grupo: 4BV1
+      \vspace{1cm}
+
+      Profesor: De la O Torres Saúl
+      \vspace{1cm}
+
+      Alumno: Miranda San Martin Angel
+      \vspace{0.5cm}
+
+      Boleta: 2023630959
+      \vspace{2cm}
+
+      \large Instituto Politécnico Nacional / Escuela Superior de Cómputo
+      \vspace{1cm}
+
+      \large Fecha de entrega: 07/10/2024
+    \end{center}
+  \end{titlepage}
+
+  \tableofcontents
+
+
+  \chapter{Introducción}\label{ch:introduccion}
+  El análisis de histogramas en imágenes es una técnica fundamental en el procesamiento digital de imágenes.
+  Un histograma es una representación gráfica de la distribución de intensidades de los píxeles en una imagen.
+  Para imágenes en color, los histogramas se generan para cada uno de los canales RGB, mientras que para imágenes en escala de grises, se crea un solo histograma que muestra las intensidades en niveles de gris.
+
+  La importancia de los histogramas radica en su capacidad para revelar la distribución tonal de una imagen, permitiendo identificar características como el contraste, el brillo y las sombras.
+  Esta práctica se centra en la creación y visualización de histogramas de imágenes tanto en color como en escala de grises, lo que facilita la comprensión de la composición tonal de las imágenes procesadas.
+
+  En esta práctica, se ha modificado el proyecto original para añadir la funcionalidad de calcular y visualizar histogramas, integrando un panel que muestra esta información gráfica en la interfaz de usuario.
+
+
+  \chapter{Desarrollo}\label{ch:desarrollo}
+
+
+  \section{Cálculo del Histograma}\label{sec:calculo-del-histograma}
+  El cálculo del histograma se realiza a través de la clase \texttt{BufferedImageHistogramCalculator}.
+  Esta clase recorre cada píxel de la imagen y agrupa las intensidades de color en bins que representan el número de píxeles que tienen una intensidad particular.
+  El histograma resultante depende del canal de color de la imagen, en el caso de que el canal de color sea rojo, verde o azul se calcula el histograma utilizando solo ese canal, en caso de que la imagen sea en escala de grises se calcula el histograma utilizando los valores de intensidad de los píxeles.
+
+  \subsection{Estructura del Código}\label{subsec:estructura-del-codigo}
+  La clase \texttt{BufferedImageHistogramCalculator} implementa un método \texttt{calculateHistogram} que toma como entrada una imagen y devuelve un objeto \texttt{BufferedImageHistogram}.
+  Esta clase gestiona tanto las imágenes en color como en escala de grises, asegurando que se calculen correctamente los histogramas para cada caso.
+
+
+  \section{Visualización del Histograma}\label{sec:visualizacion-del-histograma}
+  Para mostrar los histogramas calculados, se implementó el panel \texttt{BufferedImageHistogramPanel}.
+  Este panel se encarga de dibujar los histogramas correspondientes a la imagen visualizada.
+  Dependiendo de si la imagen está en color o en escala de grises, se muestran uno o tres gráficos que representan la distribución de los píxeles.
+
+  \subsection{Actualización de la Interfaz}\label{subsec:actualizacion-de-la-interfaz}
+  La interfaz gráfica fue modificada para integrar un nuevo panel que muestra los histogramas generados.
+  El \texttt{ControlPanel} ahora incluye un botón que permite calcular y visualizar los histogramas de la imagen cargada.
+
+
+  \section{Modificaciones en las Clases Existentes}\label{sec:modificaciones-en-las-clases-existentes}
+  Las siguientes clases fueron modificadas para soportar esta nueva funcionalidad:
+  \begin{itemize}
+    \item \texttt{BufferedImageContainer}: Esta clase fue ampliada para almacenar no solo la imagen original y modificada, sino también los histogramas asociados.
+    \item \texttt{ColorChannel}: Se realizaron ajustes para permitir que los histogramas se calculen de forma independiente para cada canal de color.
+    \item \texttt{ControlPanel}: Se añadió un botón para el cálculo de histogramas, integrando esta nueva funcionalidad en la interfaz.
+  \end{itemize}
+
+
+  \chapter{Funcionamiento}\label{ch:funcionamiento}
+
+
+  \section{Histograma Imagen Original}\label{sec:histograma-imagen-original}
+  Visualización del histograma de la imagen original.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-original}
+    \caption{Pantalla principal de la aplicación}\label{fig:histograma-original}
+  \end{figure}
+
+  \section{Histograma Imagen Canal Rojo}\label{sec:histograma-imagen-canal-rojo}
+  Visualización del histograma del canal rojo de la imagen original.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-canal-rojo}
+    \caption{Visualización del canal rojo}\label{fig:histograma-canal-rojo}
+  \end{figure}
+
+  \section{Histograma Imagen Canal Verde}\label{sec:histograma-imagen-canal-verde}
+  Visualización del histograma del canal verde de la imagen original.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-canal-verde}
+    \caption{Visualización del canal verde}\label{fig:histograma-canal-verde}
+  \end{figure}
+
+  \section{Histograma Imagen Canal Azul}\label{sec:histograma-imagen-canal-azul}
+  Visualización del histograma del canal azul de la imagen original.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-canal-azul}
+    \caption{Visualización del canal azul}\label{fig:histograma-canal-azul}
+  \end{figure}
+
+  \section{Histograma Imagen Contraste Aumentado}\label{sec:histograma-imagen-contraste-aumentado}
+  Visualización del histograma de la imagen con contraste aumentado.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-contraste-aumentado}
+    \caption{Visualización del histograma con contraste aumentado}\label{fig:histograma-contraste-aumentado}
+  \end{figure}
+
+  \section{Histograma Imagen Brillo Aumentado}\label{sec:histograma-imagen-brillo-aumentado}
+  Visualización del histograma de la imagen con brillo aumentado.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{image/functionality/histograma-brillo-aumentado}
+    \caption{Visualización del histograma con brillo aumentado}\label{fig:histograma-brillo-aumentado}
+  \end{figure}
+
+  \chapter{Conclusión}\label{ch:conclusion}
+  Esta segunda práctica permitió profundizar en el uso de los histogramas como herramienta de análisis en el procesamiento de imágenes.
+  El cálculo y visualización de histogramas ofrece una forma intuitiva de analizar la distribución tonal de una imagen, lo que puede ser útil para identificar áreas de mejora en términos de brillo, contraste y gama de colores.
+
+  Los cambios realizados en el proyecto original reflejan una correcta implementación de los histogramas tanto en imágenes en color como en escala de grises, integrándose de manera efectiva en la interfaz gráfica.
+  Como posibles mejoras, se podría explorar la implementación de métodos para ecualización de histograma, lo que permitiría ajustar automáticamente la distribución tonal de las imágenes para mejorar su calidad visual.
+
+\end{document}
